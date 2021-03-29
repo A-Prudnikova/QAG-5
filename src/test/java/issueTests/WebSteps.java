@@ -1,0 +1,32 @@
+package issueTests;
+
+import com.codeborne.selenide.Condition;
+import io.qameta.allure.Step;
+import org.openqa.selenium.By;
+
+import static com.codeborne.selenide.Selectors.withText;
+import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.open;
+
+public class WebSteps {
+
+    @Step ("Open the main page")
+    public void openMainPage() {
+        open("https://github.com");
+    }
+    @Step ("Go to the repository {REPOSITORY}")
+    public void goToRepository(String REPOSITORY) {
+        $(".header-search-input").click();
+        $(".header-search-input").sendKeys(REPOSITORY);
+        $(".header-search-input").submit();
+        $(By.linkText(REPOSITORY)).click();
+    }
+    @Step ("Go to issues tab")
+    public void goToIssueTab() {
+        $(withText("Issues")).click();
+    }
+    @Step ("Check if issue with number {ISSUE_NUMBER} exists")
+    public void checkIssue1exists(int ISSUE_NUMBER) {
+        $(withText("#" + ISSUE_NUMBER)).should(Condition.exist);
+    }
+}
